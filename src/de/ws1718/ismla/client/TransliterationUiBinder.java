@@ -4,24 +4,17 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.WindowsOptionPaneUI;
 
 import de.ws1718.ismla.shared.TransliterationConfigs;
 
@@ -47,18 +40,14 @@ public class TransliterationUiBinder extends Composite {
 	public TransliterationUiBinder() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		inputArea.getElement().addClassName("defaultBorder");
 		outputArea.setEnabled(false);
-		
 		dropdownLanguage.setEnabled(false);
 		dropdownStress.setEnabled(false);
-		dropdownLanguage.getElement().addClassName("notActiveColor");
-		dropdownStress.getElement().addClassName("notActiveColor");
-		dropdownLanguage.getElement().addClassName("redBorder");
-		dropdownStress.getElement().addClassName("redBorder");
+
+		dropdownLanguage.getElement().addClassName("notActiveDropdown");
+		dropdownStress.getElement().addClassName("notActiveDropdown");
 		
 		loading.setVisible(false);
-		
 	}
 	
 
@@ -155,8 +144,6 @@ public class TransliterationUiBinder extends Composite {
 		
 		loading.setVisible(true);
 		
-		inputArea.getElement().removeClassName("greenBorder");
-		inputArea.getElement().addClassName("redBorder");
 		inputArea.setEnabled(false);
 		
 		outputArea.setText("");
@@ -164,15 +151,11 @@ public class TransliterationUiBinder extends Composite {
 		dropdownLanguage.setEnabled(false);
 		dropdownStress.setEnabled(false);
 		
-		dropdownLanguage.getElement().removeClassName("greenBorder");
-		dropdownStress.getElement().removeClassName("greenBorder");
-		dropdownLanguage.getElement().addClassName("redBorder");
-		dropdownStress.getElement().addClassName("redBorder");
+		dropdownLanguage.getElement().removeClassName("activeDropdown");
+		dropdownStress.getElement().removeClassName("activeDropdown");
+		dropdownLanguage.getElement().addClassName("notActiveDropdown");
+		dropdownStress.getElement().addClassName("notActiveDropdown");
 		
-		dropdownLanguage.getElement().removeClassName("activeColor");
-		dropdownStress.getElement().removeClassName("activeColor");
-		dropdownLanguage.getElement().addClassName("notActiveColor");
-		dropdownStress.getElement().addClassName("notActiveColor");
 
 		greetingService.greetServer(inputArea.getText(), new AsyncCallback<TransliterationConfigs>() {
 
@@ -183,17 +166,13 @@ public class TransliterationUiBinder extends Composite {
 				loading.setVisible(false);
 				
 				inputArea.setEnabled(true);
-				inputArea.getElement().addClassName("greenBorder");
-
 				dropdownLanguage.setEnabled(true);
 				dropdownStress.setEnabled(true);
 				
-				dropdownLanguage.getElement().addClassName("activeColor");
-				dropdownStress.getElement().addClassName("activeColor");
-				dropdownLanguage.getElement().removeClassName("redBorder");
-				dropdownStress.getElement().removeClassName("redBorder");
-				dropdownLanguage.getElement().addClassName("greenBorder");
-				dropdownStress.getElement().addClassName("greenBorder");
+				dropdownLanguage.getElement().removeClassName("notActiveDropdown");
+				dropdownStress.getElement().removeClassName("notActiveDropdown");
+				dropdownLanguage.getElement().addClassName("activeDropdown");
+				dropdownStress.getElement().addClassName("activeDropdown");
 
 				
 				//content

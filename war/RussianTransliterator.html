@@ -46,65 +46,62 @@
         margin-top: 150px;
       }
 
-      .notActiveColor{
-        border-color: red;
-        border: none;
-        color: #cccccc;
-      }
-
-      .activeColor{
-         border-color: green;
-         border: none;
-         color: #4d4d4d;
-
-      }
-
-      .defaultBorder{
-        border: 2px solid black;
-      }
-
-      .redBorder{
+      .notActiveDropdown{
         border: 2px solid grey;
         background-color: solid grey;
         color: grey;
       }
 
-      .greenBorder{
+      .activeDropdown{
         color: black;
         border: 2px solid black;
       }
 
       #header {
+        border-radius: 10px;
         width: 100%;
         height: 300px;
-        border: 2px solid grey;
-        background-color: #f2f2f2;
+        border: none;
+        background-color: #fbf5e0;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
           rgba(0, 0, 0, 0.19);
-        font-size: 5em;
-    
+        color: #dfd4ae;
+        line-height: 1;
+    }
+
+    #russianTransliterator{
+      font-size: 9em;
+      margin-top: 20px;
+      margin-left: 20px;
+      position: fixed;
+      
     }
 
     #readme {
+    border-radius: 10px;
     width: 100%;
     height: 300px;
-    border: 2px solid grey;
-    background-color: #f2f2f2;
+    border: 2px solid #fbf5e0;
+    background-color: #fbf5e0;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
       rgba(0, 0, 0, 0.19);
   }
 
 
-    #russian{
+    #descriptionHeader{
       margin-left: 20px;
-      word-wrap: break-word
+      margin-top: 10px;
+      font-size: 3em;
+      color: #dfd4ae;
     }
 
-    #transliterator{
-      font-style: italic;
+    .descriptionContent{
       margin-left: 20px;
-      word-wrap: break-word
+      font-size: 2em;
+      color: #dfd4ae;
     }
+
+ 
 
 
     #marginTop{
@@ -114,13 +111,16 @@
 
 
 
-    .load-bar {
+
+/*loading bar start*/
+
+.load-bar {
   position: relative;
   margin-top: 20px;
   width: 100%;
-  height: 2px;
-  background-color: #fdba2c;
+  height: 3px;
 }
+
 .bar {
   content: "";
   display: inline;
@@ -131,24 +131,21 @@
   text-align: center;
 }
 .bar:nth-child(1) {
-  background-color: black;
-  animation: loading 3s linear infinite;
+  background-color: #FF0000;
+  animation: loading 2s linear infinite;
 }
 .bar:nth-child(2) {
-  background-color: grey;
-  animation: loading 3s linear 1s infinite;
+  background-color:  white;
+  animation: loading 2s linear 1s infinite;
 }
-.bar:nth-child(3) {
-  background-color: red;
-  animation: loading 3s linear 2s infinite;
-}
+
 @keyframes loading {
     from {left: 50%; width: 0;z-index:100;}
     33.3333% {left: 0; width: 100%;z-index: 10;}
     to {left: 0; width: 100%;}
 }
 
-
+/*loading bar end*/
 
 
     </style>
