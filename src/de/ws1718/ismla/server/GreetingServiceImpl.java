@@ -109,7 +109,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < input.length(); i++){
 			
-			if(!Character.isLetter(input.charAt(i))){
+			String curChar = input.charAt(i) + "";
+			
+			if(!Character.isLetter(input.charAt(i)) && !curChar.equals("\u0301")){
 				sb.append(" " + input.charAt(i) + " ");
 			}else{
 				sb.append(input.charAt(i));
@@ -154,26 +156,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		
 		HashMap<String, String> ruLatinTable = getRuToLatinMap("/ru-latin.txt");
 
-		HashMap<String, String> nonAccToAccented = getAccentMap("/ru-all-forms.txt");
-		
-		
-		/**
-		 * 
-		 * 
-		 * tokenizer testen
-		 * 
-		 * 
-		 */
-		String ru = "Качество энциклопедии в целом измерить непросто. "
-				+ "Одним из относительных показателей развитости отдельных языковых разделов, "
-				+ "который было предложено использовать ещё в 2006 году, "
-				+ "является так называемая «глубина». При расчёте «глубины» принимается во внимание соотношение "
-				+ "между служебными страницами[5] "
-				+ "и статьями в общем количестве страниц языкового раздела, а также среднее количество правок на каждую статью. "
-				+ "Раздел Википедии на русском языке обладает наибольшей «глубиной» среди всех славянских разделов,"
-				+ " имеющих более 100 тысяч статей, и находится по этому показателю на 12-м месте среди 52 крупнейших "
-				+ "языковых разделов, имеющих более 100 тысяч статей. ёжик в тумане";
-		
+		HashMap<String, String> nonAccToAccented = getAccentMap("/ru-all-forms.txt");		
 		
 		List<String> russianTokenized = tokenize(input);
 
@@ -224,17 +207,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		
 		//adapt pronounciation
 		for(String s : transliterated){
-//			System.out.println(s);
 			
 			if(s.contains("\u0301")){
 				
 				int stressSize = 0;
 				
 				if(s.matches(".*j.\u0301.*")){
-					System.out.println("yes: " + s);
 					stressSize = 3;
 				}else{
-					System.out.println("no: " + s);
 					stressSize = 2;
 				}
 				
@@ -259,12 +239,38 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				}
 				
 				//o becomes a immediately before the stress, and ə otherwise
-				if(beforeStress.endsWith("o")){
-					StringBuilder sb = new StringBuilder();
-					sb.append(beforeStress.substring(0, beforeStress.length()-1));
-					sb.append("o");
+				boolean firstVowel = true;
+				String tmpBeforeStress = "";
+				for(int i = beforeStress.length()-1; i >= 0; i--){
+					String cur = beforeStress.charAt(i) + "";
 					
-					beforeStress = sb.toString();
+					if(firstVowel){
+						
+						switch (cur) {
+						case "a": firstVowel = false;
+							break;
+						case "e": firstVowel = false;
+							break;
+						case "i": firstVowel = false;
+							break;
+						case "o": firstVowel = false;
+							StringBuilder sb = new StringBuilder();
+							sb.append(beforeStress.substring(0, i));
+							sb.append("a");
+							sb.append(beforeStress.substring(i+1, beforeStress.length()));
+							tmpBeforeStress = sb.toString();
+							break;
+						case "u": firstVowel = false;
+							break;
+
+						default:
+							break;
+							
+						}
+					}
+				}
+				if(tmpBeforeStress != null && tmpBeforeStress.length() > 0){
+					beforeStress = tmpBeforeStress;
 				}
 				beforeStress = beforeStress.replaceAll("o", "ə");
 				afterStress = afterStress.replaceAll("o", "ə");
