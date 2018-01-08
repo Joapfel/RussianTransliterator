@@ -228,6 +228,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				}else if(arr.length == 2){
 					beforeStress = arr[0];
 					afterStress = arr[1];
+				}else if(arr.length == 0){
+					adaptedPronounciation.add(s);
+					continue;
 				}
 				else continue;
 				
@@ -235,7 +238,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				
 				//je becomes ji in any syllable before the stress
 				if(beforeStress.contains("je")){
-					beforeStress.replaceAll("je", "ji");
+					beforeStress = beforeStress.replaceAll("je", "ji");
 				}
 				
 				//o becomes a immediately before the stress, and ə otherwise
@@ -296,6 +299,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				}
 				
 				String stress = "#";
+				
 				if(!afterStress.equals("") && afterStress != null){
 					
 					stress = s.substring(beforeStress.length(), beforeStress.length() + stressSize);
